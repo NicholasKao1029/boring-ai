@@ -1,11 +1,24 @@
+import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
 
-export default async function handler(req, res) {
+interface RequestBody {
+  phoneNumber: string;
+  objective: string;
+  params: Record<string, string>;
+  v: number;
+}
+
+interface ApiResponse {
+  status: string;
+  call_id: string;
+}
+
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
   if (req.method === 'POST') {
-    const { phoneNumber, objective, params, v } = req.body
+    const { phoneNumber, objective, params, v } = req.body as RequestBody
 
     try {
-      const response = await axios.post('API_ENDPOINT_HERE', {
+      const response = await axios.post<ApiResponse>('API_ENDPOINT_HERE', {
         phone_number: phoneNumber,
         objective,
         params,
@@ -30,4 +43,3 @@ export default async function handler(req, res) {
     res.status(405).json({ error: 'Method not allowed' })
   }
 }
-
