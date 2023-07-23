@@ -27,7 +27,7 @@ export default function Home() {
               />
             </div>
             <div className="flex lg:w-1/2 justify-end items-start">
-              <Button>Give to user</Button>
+              <Button>Give to Assistant</Button>
             </div>
           </div>
           <div className="flex flex-col space-y-1 lg:w-1/2">
