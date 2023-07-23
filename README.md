@@ -1,6 +1,6 @@
 # TODO
 
-`cp .env.local.example .env.local`
+`cp .env.local.example .env`
 
 fill out with your API Key 
 ---------------------------------------------------------------
