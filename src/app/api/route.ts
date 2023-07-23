@@ -1,7 +1,5 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import axios from 'axios'
-import dotenv from "dotenv";
-dotenv.config({ path: `.env.local` });
 
 interface RequestBody {
   phoneNumber: string;
@@ -15,20 +13,18 @@ interface ApiResponse {
   call_id: string;
 }
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
+export default async function POST(req: NextApiRequest, res: NextApiResponse) {
     const { phoneNumber, objective, params, v } = req.body as RequestBody
 
-    //POST to Belva and Call
     try {
-      const response = await axios.post<ApiResponse>('https://api.callbelva.com/call', {
+      const response = await axios.post<ApiResponse>('API_ENDPOINT_HERE', {
         phone_number: phoneNumber,
         objective,
         params,
         v
       }, {
         headers: {
-          'x-api-key': "API KEY",
+          'x-api-key': 'your-api-key-here',
           'Content-Type': 'application/json'
         }
       })
@@ -38,10 +34,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } else {
         res.status(400).json({ error: 'Failed to make call' })
       }
+
     } catch (error) {
       res.status(500).json({ error: 'Server error' })
     }
-  } else {
-    res.status(405).json({ error: 'Method not allowed' })
-  }
 }
