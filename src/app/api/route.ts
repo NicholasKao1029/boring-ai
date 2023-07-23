@@ -18,14 +18,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const { phoneNumber, objective, params, v } = req.body as RequestBody
 
     try {
-      const response = await axios.post<ApiResponse>('API_ENDPOINT_HERE', {
+      const response = await axios.post<ApiResponse>('https://api.callbelva.com/call', {
         phone_number: phoneNumber,
         objective,
         params,
         v
       }, {
         headers: {
-          'x-api-key': 'your-api-key-here',
+          'x-api-key': 'APIKEY',
           'Content-Type': 'application/json'
         }
       })
@@ -35,7 +35,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       } else {
         res.status(400).json({ error: 'Failed to make call' })
       }
-
     } catch (error) {
       res.status(500).json({ error: 'Server error' })
     }
