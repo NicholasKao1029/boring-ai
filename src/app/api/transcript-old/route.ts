@@ -4,7 +4,7 @@ import dotenv from 'dotenv'
 dotenv.config({ path: `.env.local` });
 
 const API_URL = 'https://api.callbelva.com/transcriptions';
-const HEADERS = { 'x-api-key':process.env.BELVA_AI_KEY , 'Content-Type': 'application/json' };
+const HEADERS = { 'x-api-key': "", 'Content-Type': 'application/json' };
 
 export async function POST(req: NextApiRequest, res: NextApiResponse) {
   const { call_id } = req.query;

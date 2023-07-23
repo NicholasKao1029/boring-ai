@@ -48,7 +48,7 @@ export async function POST(req: NextApiRequest, res: NextApiResponse) {
         v
       }, {
         headers: {
-          'x-api-key': process.env.BELVA_AI_KEY,
+          'x-api-key': "",
           'Content-Type': 'application/json'
         }
       })
