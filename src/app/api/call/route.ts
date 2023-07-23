@@ -1,5 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
+import { NextResponse } from 'next/server';
 import axios from 'axios';
+import dotenv from 'dotenv'
+dotenv.config({ path: `.env.local` });
 
 const SPELL_ID = "OGBCi-Obpax64frQWBi0B"
 
@@ -24,33 +27,32 @@ function parseChat(chat: string) {
   return parsed;
 }
 
-export async function POST(req: NextApiRequest, res: NextApiResponse) {
-    const { phone_number, objective }: RequestBody = req.body;
+export async function POST(req: Request) {
+    const { phone_number, objective }: RequestBody = await req.json();
 
     try {
-        console.log(res)
-      // const response = await axios.post<RespellResponse>('https://api.respell.ai/v1/run', 
-      //   {
-      //     spellId: SPELL_ID,
-      //     inputs: {
-      //       phone_number: phone_number,
-      //       objective,
-      //     }
-      //   },
-      //   {
-      //     headers: {
-      //       authorization: 'Bearer e7c093e8-2089-4861-ae48-f42e495b5008',
-      //       accept: 'application/json',
-      //       'content-type': 'application/json',
-      //     },
-      //   }
-      // );
+        console.log("starting")
+      const response = await axios.post<RespellResponse>('https://api.respell.ai/v1/run', 
+        {
+          spellId: SPELL_ID,
+          inputs: {
+            phone_number: phone_number,
+            objective,
+          }
+        },
+        {
+          headers: {
+            authorization: `Bearer ${process.env.RESPELL_KEY}`,
+            accept: 'application/json',
+            'content-type': 'application/json',
+          },
+        }
+      );
 
-      // const { outputs } = response.data;
-      // const parsedChat = parseChat(outputs.output);
-      // res.status(200).json({chat: parsedChat});
-      res.status(200).json({chat: ""});
+      const { outputs } = response.data;
+      const parsedChat = parseChat(outputs.output);
+      return NextResponse.json({chat: parsedChat});
     } catch (error: any) {
-      res.status(500).json({ error: error.message });
+      return NextResponse.json({error: true})
     }
 }

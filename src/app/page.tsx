@@ -32,12 +32,15 @@ export default function Home() {
 
   const handleButtonClick = async () => {
     try {
+        console.log(phoneNumber)
+        console.log(objective)
       const response = await axios.post('/api/call', {
         phone_number: phoneNumber,
         objective,
       })
 
       if (response.data.chat) {
+          console.log("success")
         setTranscript(response.data.chat)
       }
     } catch (error: any) {
