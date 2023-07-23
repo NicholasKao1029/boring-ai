@@ -53,6 +53,7 @@ export async function POST(req: Request) {
       const parsedChat = parseChat(outputs.output);
       return NextResponse.json({chat: parsedChat});
     } catch (error: any) {
+      console.error(error)
       return NextResponse.json({error: true})
     }
 }
